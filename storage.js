@@ -155,7 +155,7 @@ async function seedDefaultCategories() {
 
   const defaults = [
     { id: 'games', name: 'ألعاب', icon: '🎮', color: '#8b5cf6', order: 1 },
-    { id: 'work', name: 'شغل', icon: '💼', color: '#6366f1', order: 2 },
+    { id: 'work', name: 'شغل', icon: '💼', color: '#0085ff', order: 2 },
     { id: 'study', name: 'مذاكرة', icon: '📚', color: '#22c55e', order: 3 },
     { id: 'media', name: 'ميديا', icon: '🎬', color: '#f59e0b', order: 4 },
     { id: 'other', name: 'أخرى', icon: '📦', color: '#6b7280', order: 5 },

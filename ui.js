@@ -7,7 +7,7 @@ const UI = {
   currentView: 'grid',
   currentSort: 'newest',
   searchQuery: '',
-  selectedColor: '#6366f1',
+  selectedColor: '#0085ff',
   editingFileId: null,
 
   async renderCategories(categories, files) {
@@ -20,7 +20,7 @@ const UI = {
       id: 'all',
       name: 'كل الملفات',
       icon: '📁',
-      color: '#6366f1'
+      color: '#0085ff'
     }, allCount, this.currentCategory === 'all');
     list.appendChild(allItem);
 
@@ -164,7 +164,7 @@ const UI = {
   openCategoryModal() {
     document.getElementById('category-name').value = '';
     document.getElementById('category-icon').value = '📁';
-    this.selectedColor = '#6366f1';
+    this.selectedColor = '#0085ff';
     document.querySelectorAll('.color-dot').forEach(d => {
       d.classList.toggle('active', d.dataset.color === this.selectedColor);
     });

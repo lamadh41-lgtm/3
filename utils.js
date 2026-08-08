@@ -66,7 +66,7 @@ function getFileColor(type, name) {
   if (type.startsWith('audio/')) return '#8b5cf6';
   if (type === 'application/pdf' || ext === 'pdf') return '#ef4444';
   if (['zip', 'rar', '7z'].includes(ext)) return '#06b6d4';
-  if (['exe', 'msi', 'apk'].includes(ext)) return '#6366f1';
+  if (['exe', 'msi', 'apk'].includes(ext)) return '#0085ff';
   return '#6b7280';
 }
 
