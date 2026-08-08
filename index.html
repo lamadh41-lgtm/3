@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProSpace | مساحتك الاحترافية</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="variables.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="layout.css">
+  <link rel="stylesheet" href="components.css">
+  <link rel="stylesheet" href="animations.css">
+</head>
+<body>
+  <!-- شاشة التحميل -->
+  <div id="loader" class="loader">
+    <div class="loader-content">
+      <div class="loader-logo">PS</div>
+      <div class="loader-bar"><div class="loader-progress"></div></div>
+      <p>جاري تحميل مساحتك...</p>
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <!-- الشريط الجانبي -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <div class="brand">
+          <div class="brand-icon">PS</div>
+          <div class="brand-text">
+            <strong>ProSpace</strong>
+            <span>مساحتك الخاصة</span>
+          </div>
+        </div>
+        <button class="icon-btn sidebar-toggle" id="sidebar-toggle" title="طي القائمة">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <div class="nav-section">
+          <div class="nav-label">القوائم</div>
+          <ul id="categories-list">
+            <!-- يتم ملؤها بالـ JS -->
+          </ul>
+          <button class="add-category-btn" id="add-category-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+            إضافة قائمة جديدة
+          </button>
+        </div>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="nav-item" id="btn-all-saves">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          <span>المحفوظات المحلية</span>
+        </button>
+        <button class="nav-item" id="btn-settings">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+          <span>الإعدادات</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-right">
+          <h1 id="current-category-title">كل الملفات</h1>
+          <p id="current-category-desc" class="subtitle">كل ما حفظته محلياً في مكان واحد</p>
+        </div>
+        <div class="topbar-left">
+          <div class="search-box">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            <input type="text" id="search-input" placeholder="ابحث في ملفاتك...">
+          </div>
+          <button class="btn btn-primary" id="btn-upload">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+            رفع ملفات
+          </button>
+        </div>
+      </header>
+
+      <!-- منطقة الرفع (مخفية افتراضياً) -->
+      <div id="upload-zone" class="upload-zone hidden">
+        <div class="upload-inner" id="drop-area">
+          <div class="upload-icon">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+          </div>
+          <h3>اسحب الملفات هنا أو اضغط للاختيار</h3>
+          <p>يدعم أي نوع: فيديو، PDF، صور، برامج، مستندات، أرشيفات...</p>
+          <input type="file" id="file-input" multiple hidden>
+          <div class="upload-actions">
+            <button class="btn btn-primary" id="btn-select-files">اختيار ملفات</button>
+            <button class="btn btn-ghost" id="btn-cancel-upload">إلغاء</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- شبكة الملفات -->
+      <div class="content-area">
+        <div class="toolbar">
+          <div class="view-toggle">
+            <button class="view-btn active" data-view="grid" title="شبكة">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+            </button>
+            <button class="view-btn" data-view="list" title="قائمة">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/></svg>
+            </button>
+          </div>
+          <div class="sort-select">
+            <select id="sort-select">
+              <option value="newest">الأحدث أولاً</option>
+              <option value="oldest">الأقدم أولاً</option>
+              <option value="name">حسب الاسم</option>
+              <option value="size">حسب الحجم</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="files-container" class="files-grid">
+          <!-- يتم ملؤها بالـ JS -->
+        </div>
+
+        <div id="empty-state" class="empty-state hidden">
+          <div class="empty-icon">📂</div>
+          <h3>لا توجد ملفات هنا بعد</h3>
+          <p>ارفع ملفاتك أو اسحبها هنا لتبدأ في تنظيم مساحتك</p>
+          <button class="btn btn-primary" id="btn-empty-upload">رفع أول ملف</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- نافذة منبثقة: إضافة قائمة -->
+  <div id="modal-category" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <h2>إضافة قائمة جديدة</h2>
+      <div class="form-group">
+        <label>اسم القائمة</label>
+        <input type="text" id="category-name" placeholder="مثلاً: ألعاب، شغل، مذاكرة...">
+      </div>
+      <div class="form-group">
+        <label>أيقونة (إيموجي)</label>
+        <input type="text" id="category-icon" placeholder="🎮" maxlength="2">
+      </div>
+      <div class="form-group">
+        <label>اللون</label>
+        <div class="color-options" id="color-options">
+          <button class="color-dot active" data-color="#6366f1" style="background:#6366f1"></button>
+          <button class="color-dot" data-color="#22c55e" style="background:#22c55e"></button>
+          <button class="color-dot" data-color="#f59e0b" style="background:#f59e0b"></button>
+          <button class="color-dot" data-color="#ef4444" style="background:#ef4444"></button>
+          <button class="color-dot" data-color="#06b6d4" style="background:#06b6d4"></button>
+          <button class="color-dot" data-color="#ec4899" style="background:#ec4899"></button>
+          <button class="color-dot" data-color="#8b5cf6" style="background:#8b5cf6"></button>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="btn-cancel-category">إلغاء</button>
+        <button class="btn btn-primary" id="btn-save-category">حفظ القائمة</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- نافذة منبثقة: تفاصيل الملف / حفظ -->
+  <div id="modal-file" class="modal hidden">
+    <div class="modal-backdrop"></div>
+    <div class="modal-box modal-lg">
+      <div class="file-preview-header">
+        <div class="file-preview-icon" id="preview-icon">📄</div>
+        <div>
+          <h2 id="preview-name">اسم الملف</h2>
+          <p id="preview-meta" class="subtitle"></p>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>اسم العرض (يمكنك تغييره)</label>
+        <input type="text" id="file-display-name">
+      </div>
+      <div class="form-group">
+        <label>القائمة</label>
+        <select id="file-category-select"></select>
+      </div>
+      <div class="form-group">
+        <label>ملاحظات (اختياري)</label>
+        <textarea id="file-notes" rows="3" placeholder="أضف ملاحظة..."></textarea>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-danger" id="btn-delete-file">حذف</button>
+        <div class="spacer"></div>
+        <button class="btn btn-ghost" id="btn-close-file">إغلاق</button>
+        <button class="btn btn-primary" id="btn-save-file">حفظ محلياً</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- توست -->
+  <div id="toast" class="toast hidden"></div>
+
+  <script src="storage.js"></script>
+  <script src="utils.js"></script>
+  <script src="ui.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
